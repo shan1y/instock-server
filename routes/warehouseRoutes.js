@@ -64,11 +64,9 @@ router.route("/:warehouseId").get((req, res) => {
     (warehouse) => warehouse.id === warehouseId
   );
 
-  if (warehouseData) {
-    res.status(200).json(warehouseData);
-  } else {
-    res.status(404).send("Warehouse not found");
-  }
+  !warehouseData
+    ? res.status(404).send("Warehouse not found")
+    : res.status(200).json(warehouseData);
 });
 
 module.exports = router;
