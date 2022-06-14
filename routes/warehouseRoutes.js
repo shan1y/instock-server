@@ -13,6 +13,7 @@ const readFile = () => {
 
 router
   .route("/")
+  // GETTING ALL WAREHOUSE DATA
   .get((req, res) => {
     const warehouseData = readFile();
     return res.status(200).send(warehouseData);
@@ -22,19 +23,19 @@ router
   .post((req, res) => {
     const warehouseData = readFile();
 
-    // CONDITIONAL FOR VALIDATION
-    // if (
-    //   !req.body.warehouseName ||
-    //   !req.body.address ||
-    //   !req.body.city ||
-    //   !req.body.country ||
-    //   !req.body.contactName ||
-    //   !req.body.position ||
-    //   !req.body.phone ||
-    //   !req.body.email
-    // ) {
-    //   return res.status(400).send("Please provide all information.");
-    // }
+    // CONDITIONAL FOR BACK END POST VALIDATION
+    if (
+      !req.body.warehouseName ||
+      !req.body.address ||
+      !req.body.city ||
+      !req.body.country ||
+      !req.body.contactName ||
+      !req.body.position ||
+      !req.body.phone ||
+      !req.body.email
+    ) {
+      return res.status(400).send("Please provide all information.");
+    }
 
     // CREATING NEW WAREHOUSE OBJECT
     const newWarehouse = {
@@ -46,7 +47,7 @@ router
       contact: {
         name: req.body.contactName,
         position: req.body.position,
-        phone: req.body.number,
+        phone: req.body.phone,
         email: req.body.email,
       },
     };
@@ -58,6 +59,19 @@ router
     res.status(201).json(newWarehouse);
   });
 
-router.use(express.json());
+router
+  .route("/:warehouseId")
+  // GETTING WAREHOUSE BY THEIR IDS
+  .get((req, res) => {
+    const warehouseId = req.params.warehouseId;
+    const warehouseData = readFile().find(
+      (warehouse) => warehouse.id === warehouseId
+    );
+
+    // CONDITIONAL FOR URL VALIDATION
+    !warehouseData
+      ? res.status(404).send("Warehouse not found")
+      : res.status(200).json(warehouseData);
+  });
 
 module.exports = router;
