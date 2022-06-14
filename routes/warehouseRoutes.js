@@ -58,6 +58,17 @@ router
     res.status(201).json(newWarehouse);
   });
 
-router.use(express.json());
+router.route("/:warehouseId").get((req, res) => {
+  const warehouseId = req.params.warehouseId;
+  const warehouseData = readFile().find(
+    (warehouse) => warehouse.id === warehouseId
+  );
+
+  if (warehouseData) {
+    res.status(200).json(warehouseData);
+  } else {
+    res.status(404).send("Warehouse not found");
+  }
+});
 
 module.exports = router;
