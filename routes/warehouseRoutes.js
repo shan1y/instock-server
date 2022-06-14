@@ -42,8 +42,8 @@ router
     // CREATING NEW WAREHOUSE OBJECT
     const newWarehouse = {
       id: uuid(),
-      name: req.body.warhouseName,
-      addres: req.body.address,
+      name: req.body.warehouseName,
+      address: req.body.address,
       city: req.body.city,
       country: req.body.country,
       contact: {
