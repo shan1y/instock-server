@@ -4,11 +4,11 @@ const fs = require("fs");
 const { v4: uuid } = require("uuid");
 router.use(express.json());
 
-const warehouseData = "./data/warehouses.json";
+const warehouseDataPath = "./data/warehouses.json";
 
 //FUNCTION TO READ FILE
 const readFile = () => {
-  return JSON.parse(fs.readFileSync(warehouseData));
+  return JSON.parse(fs.readFileSync(warehouseDataPath));
 };
 
 router
@@ -53,7 +53,7 @@ router
 
     // PUSHING TO DATA, STRINGIFYING, AND RETURNING NEW OBJECT
     warehouseData.push(newWarehouse);
-    fs.writeFileSync("./data/warehouses.json", JSON.stringify(warehouseData));
+    fs.writeFileSync(warehouseDataPath, JSON.stringify(warehouseData));
     console.log(newWarehouse);
     res.status(201).json(newWarehouse);
   });
