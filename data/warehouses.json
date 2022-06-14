@@ -102,5 +102,18 @@
       "phone": "+1 (646) 123-1234",
       "email": "vmendoza@instock.com"
     }
+  },
+  {
+    "id": "b695fc41-57eb-48b2-9b32-f7f5bb2a864f",
+    "name": "Michael Test",
+    "addres": "123 Friyays",
+    "city": "Toronto",
+    "country": "Canada",
+    "contact": {
+      "name": "Michelle",
+      "position": "Warehouse Manager",
+      "phone": "647 893 1029",
+      "email": "Hello World "
+    }
   }
 ]
