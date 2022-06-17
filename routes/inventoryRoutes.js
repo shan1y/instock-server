@@ -13,10 +13,34 @@ const readFile = () => {
 };
 
 // GETTING ALL INVENTORY ITEMS DATA
-router.route("/").get((req, res) => {
-  let inventoryItems = readFile();
-  return res.status(200).send(inventoryItems);
-});
+router
+  .route("/")
+  .get((req, res) => {
+    let inventoryItems = readFile();
+    return res.status(200).send(inventoryItems);
+  })
+  // POST REQUEST FOR addInventoryItems component
+  .post((res, req) => {
+    const { warehouseName, itemName, description, category, status, quantity } =
+      req.body;
+      let newInventoryItems = readFile();
+
+    const newItem = {
+      id: uuid(),
+      warehouseID: uuid(),
+      warehouseName: warehouseName,
+      itemName: itemName,
+      description: description,
+      category: category,
+      status: status,
+      quantity: quantity,
+    };
+
+    newInventoryItems.push(newItem);
+    fs.writeFileSync(inventoryDataPath, JSON.stringify(newInventoryItems));
+
+    res.status(200).json(newItem);
+  });
 
 router
   .route("/:inventoryId")
