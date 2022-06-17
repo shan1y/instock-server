@@ -31,10 +31,10 @@ router
       !req.body.address ||
       !req.body.city ||
       !req.body.country ||
-      !req.body.contact.contactName ||
-      !req.body.contact.position ||
-      !req.body.contact.phone ||
-      !req.body.contact.email
+      !req.body.contactName ||
+      !req.body.position ||
+      !req.body.phone ||
+      !req.body.email
     ) {
       return res.status(400).send("Please provide all information.");
     }
@@ -47,10 +47,10 @@ router
       city: req.body.city,
       country: req.body.country,
       contact: {
-        name: req.body.contact.contactName,
-        position: req.body.contact.position,
-        phone: req.body.contact.phone,
-        email: req.body.contact.email,
+        name: req.body.contactName,
+        position: req.body.position,
+        phone: req.body.phone,
+        email: req.body.email,
       },
     };
 
