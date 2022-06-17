@@ -53,7 +53,7 @@ router
   // GETTING INVENTORY BY THEIR IDS
   .get((req, res) => {
     const inventoryItemId = req.params.inventoryId;
-    const inventoryItems = readWarehouseFile().find(
+    const inventoryItems = readFile().find(
       (inventoryItem) => inventoryItem.id === inventoryItemId
     );
 
@@ -61,6 +61,14 @@ router
     !inventoryItems
       ? res.status(404).send("Item not found")
       : res.status(200).json(inventoryItems);
+  })
+  .delete((req, res) => {
+    const inventoryData = readFile();
+    const newInventoryList = inventoryData.filter((inventory) => {
+      return inventory.id !== req.params.inventoryId;
+    });
+    fs.writeFileSync(inventoryDataPath, JSON.stringify(newInventoryList));
+    res.status(200).json(newInventoryList);
   });
 
 router.route("/:inventoryId/edit").put((req, res) => {
