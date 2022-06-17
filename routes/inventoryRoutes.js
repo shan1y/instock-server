@@ -3,6 +3,8 @@ const router = express.Router();
 const fs = require("fs");
 const { v4: uuid } = require("uuid");
 
+// router.use(express());
+
 const inventoryDataPath = "./data/inventories.json";
 
 // For post request id reference
@@ -53,7 +55,7 @@ router
   // GETTING INVENTORY BY THEIR IDS
   .get((req, res) => {
     const inventoryItemId = req.params.inventoryId;
-    const inventoryItems = readWarehouseFile().find(
+    const inventoryItems = readFile().find(
       (inventoryItem) => inventoryItem.id === inventoryItemId
     );
 
