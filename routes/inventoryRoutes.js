@@ -33,4 +33,24 @@ router
       : res.status(200).json(inventoryItems);
   });
 
+router.route("/:inventoryId/edit").put((req, res) => {
+  let inventoryItems = readFile();
+  const inventoryItemToEdit = inventoryItems.find(
+    (item) => item.id === req.params.id
+  );
+  if (inventoryItemToEdit) {
+    let inventoryItemToEdit = {
+      id: inventoryItemToEdit.id,
+      warehouseID: req.body.warehouseID,
+      warehouseName: req.body.warehouseName,
+      itemName: req.body.itemName,
+      description: req.body.description,
+      category: req.body.category,
+      status: req.body.status,
+      quantity: 298,
+    };
+  }
+  fs.writeFileSync(inventoryDataPath, JSON.stringify(inventoryItemToEdit));
+});
+
 module.exports = router;
