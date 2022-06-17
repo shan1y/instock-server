@@ -33,17 +33,4 @@ router
       : res.status(200).json(inventoryItems);
   });
 
-// GETTING INVENTORY BY WAREHOUSE ID
-router.route("/warehouse/:warehouseID").get((req, res) => {
-  const inventoryItems = readFile();
-
-  const warehouseInventories = inventoryItems.filter(
-    (inventory) => inventory.warehouseID === req.params.warehouseID
-  );
-
-  warehouseInventories.length === 0
-    ? res.status(404).send("Warehouse inventory not found")
-    : res.status(200).json(warehouseInventories);
-});
-
 module.exports = router;

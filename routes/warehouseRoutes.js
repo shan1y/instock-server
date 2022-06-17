@@ -5,23 +5,24 @@ const { v4: uuid } = require("uuid");
 router.use(express.json());
 
 const warehouseDataPath = "./data/warehouses.json";
+const inventoryDataPath = "./data/inventories.json";
 
 //FUNCTION TO READ FILE
-const readFile = () => {
-  return JSON.parse(fs.readFileSync(warehouseDataPath));
+const readFile = (data) => {
+  return JSON.parse(fs.readFileSync(data));
 };
 
 router
   .route("/")
   // GETTING ALL WAREHOUSE DATA
   .get((req, res) => {
-    const warehouseData = readFile();
+    const warehouseData = readFile(warehouseDataPath);
     return res.status(200).send(warehouseData);
   })
 
   // HANDLING POST REQUEST FOR CREATING NEW WAREHOUSE
   .post((req, res) => {
-    const warehouseData = readFile();
+    const warehouseData = readFile(warehouseDataPath);
 
     // CONDITIONAL FOR BACK END POST VALIDATION
 
@@ -66,7 +67,7 @@ router
   // GETTING WAREHOUSE BY THEIR IDS
   .get((req, res) => {
     const warehouseId = req.params.warehouseId;
-    const warehouseData = readFile().find(
+    const warehouseData = readFile(warehouseDataPath).find(
       (warehouse) => warehouse.id === warehouseId
     );
 
@@ -77,13 +78,26 @@ router
   });
 
 router.route("/:id").delete((req, res) => {
-  const warehouseData = readFile();
+  const warehouseData = readFile(warehouseDataPath);
   const newWarehouseList = warehouseData.filter((warehouse) => {
     return warehouse.id !== req.params.id;
   });
 
   fs.writeFileSync(warehouseDataPath, JSON.stringify(newWarehouseList));
   res.status(200).json(newWarehouseList);
+});
+
+// GETTING INVENTORY BY WAREHOUSE ID // /warehouse/:warehouseId/inventory
+router.route("/:warehouseID/inventory").get((req, res) => {
+  const inventoryItems = readFile(inventoryDataPath);
+
+  const warehouseInventories = inventoryItems.filter(
+    (inventory) => inventory.warehouseID === req.params.warehouseID
+  );
+
+  warehouseInventories.length === 0
+    ? res.status(404).send("Warehouse inventory not found")
+    : res.status(200).json(warehouseInventories);
 });
 
 module.exports = router;
