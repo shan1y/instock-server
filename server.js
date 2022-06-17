@@ -12,6 +12,7 @@ app.use(cors());
 
 // TEST
 app.get("/", function (req, res) {
+  console.log(req);
   res.send("Welcome to inStock API!");
 });
 

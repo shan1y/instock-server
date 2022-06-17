@@ -76,4 +76,14 @@ router
       : res.status(200).json(warehouseData);
   });
 
+router.route("/:id").delete((req, res) => {
+  const warehouseData = readFile();
+  const newWarehouseList = warehouseData.filter((warehouse) => {
+    return warehouse.id !== req.params.id;
+  });
+
+  fs.writeFileSync(warehouseDataPath, JSON.stringify(newWarehouseList));
+  res.status(200).json(newWarehouseList);
+});
+
 module.exports = router;
