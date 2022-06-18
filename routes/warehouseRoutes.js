@@ -76,13 +76,23 @@ router
       : res.status(200).json(warehouseData);
   });
 
-router
-.route("/:warehouseId/edit").put((req, res) => {
+router.route("/:warehouseId/edit").put((req, res) => {
   let warehouseList = readFile(warehouseDataPath);
   let warehouseId = req.params.warehouseId;
   let warehouseIndex = warehouseList.findIndex(
     (warehouse) => warehouse.id === warehouseId
   );
+
+  // Validation function
+  const validInput = (key) => {
+    if (!key) {
+      return res.status(400).send("Please provide all information.");
+    }
+  };
+  //Apply validation to each key
+  Object.keys(req.body).forEach((request) => {
+    return validInput(request);
+  }); 
 
   warehouseList[warehouseIndex] = {
     id: req.body.id,

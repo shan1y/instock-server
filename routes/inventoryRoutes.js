@@ -33,6 +33,20 @@ router
     let pullName = warehouseRead.find((item) => {
       return item.id === req.body.warehouseID;
     });
+
+
+    // VALIDATION 
+
+    if (
+      !req.body.warehouseID ||
+      !req.body.itemName ||
+      !req.body.description ||
+      !req.body.category ||
+      !req.body.status ||
+      !req.body.quantity 
+    ) {
+      return res.status(400).send("Please provide all information.");
+    }
     // New item object
     let newItem = {
       id: uuid(),
