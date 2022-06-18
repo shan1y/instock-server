@@ -34,20 +34,18 @@ router
       return item.id === req.body.warehouseID;
     });
 
-
-    // VALIDATION 
-
-    if (
-      !req.body.warehouseID ||
-      !req.body.itemName ||
-      !req.body.description ||
-      !req.body.category ||
-      !req.body.status ||
-      !req.body.quantity 
-    ) {
+  // Validation function
+  const validInput = (key) => {
+    if (!key) {
       return res.status(400).send("Please provide all information.");
     }
-    // New item object
+  };
+  //Apply validation to each key
+  Object.keys(req.body).forEach((request) => {
+    return validInput(request);
+  }); 
+
+  // New item object
     let newItem = {
       id: uuid(),
       warehouseID: req.body.warehouseID,
