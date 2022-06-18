@@ -73,22 +73,23 @@ router
 
 router.route("/:inventoryId/edit").put((req, res) => {
   let inventoryItems = readFile();
-  const inventoryItemToEdit = inventoryItems.find(
-    (item) => item.id === req.params.id
+  let index = inventoryItems.findIndex(
+    (item) => item.id === req.params.inventoryId
   );
-  if (inventoryItemToEdit) {
-    let inventoryItemToEdit = {
-      id: inventoryItemToEdit.id,
-      warehouseID: req.body.warehouseID,
-      warehouseName: req.body.warehouseName,
-      itemName: req.body.itemName,
-      description: req.body.description,
-      category: req.body.category,
-      status: req.body.status,
-      quantity: 298,
-    };
-  }
-  fs.writeFileSync(inventoryDataPath, JSON.stringify(inventoryItemToEdit));
+
+  console.log(index);
+
+  (inventoryItems[index]["id"] = req.body.id),
+    (inventoryItems[index]["warehouseID"] = req.body.warehouseID),
+    (inventoryItems[index]["warehouseName"] = req.body.warehouseName),
+    (inventoryItems[index]["itemName"] = req.body.itemName),
+    (inventoryItems[index]["description"] = req.body.description),
+    (inventoryItems[index]["category"] = req.body.category),
+    (inventoryItems[index]["status"] = req.body.status),
+    (inventoryItems[index]["quantity"] = req.body.quantity),
+    console.log(inventoryItems[index]);
+  fs.writeFileSync(inventoryDataPath, JSON.stringify(inventoryItems));
+  res.json(inventoryItems);
 });
 
 module.exports = router;
