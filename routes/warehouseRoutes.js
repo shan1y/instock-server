@@ -103,6 +103,8 @@ router
 });
 
 router.route("/:id").delete((req, res) => {
+  console.log(req);
+  console.log("hello");
   const warehouseData = readFile(warehouseDataPath);
   const newWarehouseList = warehouseData.filter((warehouse) => {
     return warehouse.id !== req.params.id;
