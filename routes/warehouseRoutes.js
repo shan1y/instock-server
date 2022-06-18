@@ -12,11 +12,6 @@ const readFile = (data) => {
   return JSON.parse(fs.readFileSync(data));
 };
 
-// FUNCTION TO WRITE FILE
-const writeFile = (path, data) => {
-  return JSON.parse(fs.writeFileSync(path, data));
-};
-
 router
   .route("/")
   // GETTING ALL WAREHOUSE DATA
@@ -81,29 +76,31 @@ router
       : res.status(200).json(warehouseData);
   });
 
-router.route("/:warehouseId/edit")
-.put((req, res) => {
-  // console.log("console.log", req);
-  // const specificWarehouse = readFile(warehouseDataPath).indexOf;
-  // const warehouseId = req.params.warehouseId;
-  // const warehouseData = readFile(warehouseDataPath).find(
-  //   (warehouse) => warehouse.id === warehouseId
-  // );
+router
+.route("/:warehouseId/edit").put((req, res) => {
+  let warehouseList = readFile(warehouseDataPath);
+  let warehouseId = req.params.warehouseId;
+  let warehouseIndex = warehouseList.findIndex(
+    (warehouse) => warehouse.id === warehouseId
+  );
 
+  warehouseList[warehouseIndex] = {
+    id: req.body.id,
+    name: req.body.warehouseName,
+    address: req.body.address,
+    city: req.body.city,
+    country: req.body.country,
+    contact: {
+      name: req.body.contactName,
+      position: req.body.position,
+      phone: req.body.phone,
+      email: req.body.email,
+    },
+  };
 
-
-
-  // fs.writeFileSync(warehouseDataPath, JSON.stringify(warehouseData));
-
-
+  fs.writeFileSync(warehouseDataPath, JSON.stringify(warehouseList));
+  res.json(warehouseList);
 });
-
-
-
-
-
-
-
 
 router.route("/:id").delete((req, res) => {
   const warehouseData = readFile(warehouseDataPath);
