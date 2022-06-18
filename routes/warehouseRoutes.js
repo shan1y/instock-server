@@ -12,6 +12,11 @@ const readFile = (data) => {
   return JSON.parse(fs.readFileSync(data));
 };
 
+// FUNCTION TO WRITE FILE
+const writeFile = (path, data) => {
+  return JSON.parse(fs.writeFileSync(path, data));
+};
+
 router
   .route("/")
   // GETTING ALL WAREHOUSE DATA
@@ -70,12 +75,35 @@ router
     const warehouseData = readFile(warehouseDataPath).find(
       (warehouse) => warehouse.id === warehouseId
     );
-
     // CONDITIONAL FOR URL VALIDATION
     !warehouseData
       ? res.status(404).send("Warehouse not found")
       : res.status(200).json(warehouseData);
   });
+
+router.route("/:warehouseId/edit")
+.put((req, res) => {
+  // console.log("console.log", req);
+  // const specificWarehouse = readFile(warehouseDataPath).indexOf;
+  // const warehouseId = req.params.warehouseId;
+  // const warehouseData = readFile(warehouseDataPath).find(
+  //   (warehouse) => warehouse.id === warehouseId
+  // );
+
+
+
+
+  // fs.writeFileSync(warehouseDataPath, JSON.stringify(warehouseData));
+
+
+});
+
+
+
+
+
+
+
 
 router.route("/:id").delete((req, res) => {
   const warehouseData = readFile(warehouseDataPath);
