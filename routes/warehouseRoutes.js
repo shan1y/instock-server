@@ -70,12 +70,47 @@ router
     const warehouseData = readFile(warehouseDataPath).find(
       (warehouse) => warehouse.id === warehouseId
     );
-
     // CONDITIONAL FOR URL VALIDATION
     !warehouseData
       ? res.status(404).send("Warehouse not found")
       : res.status(200).json(warehouseData);
   });
+
+router.route("/:warehouseId/edit").put((req, res) => {
+  let warehouseList = readFile(warehouseDataPath);
+  let warehouseId = req.params.warehouseId;
+  let warehouseIndex = warehouseList.findIndex(
+    (warehouse) => warehouse.id === warehouseId
+  );
+
+  // Validation function
+  const validInput = (key) => {
+    if (!key) {
+      return res.status(400).send("Please provide all information.");
+    }
+  };
+  //Apply validation to each key
+  Object.keys(req.body).forEach((request) => {
+    return validInput(request);
+  }); 
+
+  warehouseList[warehouseIndex] = {
+    id: req.body.id,
+    name: req.body.warehouseName,
+    address: req.body.address,
+    city: req.body.city,
+    country: req.body.country,
+    contact: {
+      name: req.body.contactName,
+      position: req.body.position,
+      phone: req.body.phone,
+      email: req.body.email,
+    },
+  };
+
+  fs.writeFileSync(warehouseDataPath, JSON.stringify(warehouseList));
+  res.json(warehouseList);
+});
 
 router.route("/:id").delete((req, res) => {
   console.log(req);
