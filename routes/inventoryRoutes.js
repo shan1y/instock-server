@@ -34,18 +34,18 @@ router
       return item.id === req.body.warehouseID;
     });
 
-  // Validation function
-  const validInput = (key) => {
-    if (!key) {
-      return res.status(400).send("Please provide all information.");
-    }
-  };
-  //Apply validation to each key
-  Object.keys(req.body).forEach((request) => {
-    return validInput(request);
-  }); 
+    // Validation function
+    const validInput = (key) => {
+      if (!key) {
+        return res.status(400).send("Please provide all information.");
+      }
+    };
+    //Apply validation to each key
+    Object.keys(req.body).forEach((request) => {
+      return validInput(request);
+    });
 
-  // New item object
+    // New item object
     let newItem = {
       id: uuid(),
       warehouseID: req.body.warehouseID,
@@ -75,6 +75,14 @@ router
     !inventoryItems
       ? res.status(404).send("Item not found")
       : res.status(200).json(inventoryItems);
+  })
+  .delete((req, res) => {
+    const inventoryData = readFile();
+    const newInventoryList = inventoryData.filter((inventory) => {
+      return inventory.id !== req.params.inventoryId;
+    });
+    fs.writeFileSync(inventoryDataPath, JSON.stringify(newInventoryList));
+    res.status(200).json(newInventoryList);
   });
 
 router.route("/:inventoryId/edit").put((req, res) => {
