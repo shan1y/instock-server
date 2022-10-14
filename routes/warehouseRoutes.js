@@ -92,7 +92,7 @@ router.route("/:warehouseId/edit").put((req, res) => {
   //Apply validation to each key
   Object.keys(req.body).forEach((request) => {
     return validInput(request);
-  }); 
+  });
 
   warehouseList[warehouseIndex] = {
     id: req.body.id,
@@ -113,8 +113,6 @@ router.route("/:warehouseId/edit").put((req, res) => {
 });
 
 router.route("/:id").delete((req, res) => {
-  console.log(req);
-  console.log("hello");
   const warehouseData = readFile(warehouseDataPath);
   const newWarehouseList = warehouseData.filter((warehouse) => {
     return warehouse.id !== req.params.id;
