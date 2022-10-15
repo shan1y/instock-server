@@ -20,5 +20,5 @@ Install dependencies
 To start this project run
 
 ```bash
-  npx nodemon server.js
+  npm run dev
 ```
